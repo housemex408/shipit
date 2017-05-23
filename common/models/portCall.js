@@ -1,8 +1,9 @@
 'use strict';
+const Voyages = require('../Voyages');
 
 module.exports = function(PortCall) {
 
-  PortCall.getRoutes = function(etd, eta, cb) {
+  PortCall.getRoutes = function(etd, eta, includeTrans, cb) {
     // For more information on how to query data in loopback please see
     // https://docs.strongloop.com/display/public/LB/Querying+data
     const query = {
@@ -20,10 +21,23 @@ module.exports = function(PortCall) {
 
     PortCall.find(query)
       .then(calls => {
-        // TODO: convert port calls to voyages/routes
+
         console.log(calls);
 
-        return cb(null, calls);
+        let voyages = new Voyages();
+        let routeList = voyages.extractRoutes(calls);
+        let allRoutes = voyages.generateAllRoutes(routeList);
+
+        if(includeTrans == true) {
+          let transhipments = voyages.findTranshipments(allRoutes);
+          allRoutes = allRoutes.concat(transhipments);
+        }
+
+        console.log("allRoutes: \n");
+        console.log(allRoutes);
+
+        // return cb(null, calls);
+        return cb(null, allRoutes);
       })
       .catch(err => {
         console.log(err);
@@ -35,7 +49,8 @@ module.exports = function(PortCall) {
   PortCall.remoteMethod('getRoutes', {
     accepts: [
       { arg: 'etd', 'type': 'date' },
-      { arg: 'eta', 'type': 'date' }
+      { arg: 'eta', 'type': 'date' },
+      { arg: 'includeTrans', 'type': 'boolean' }
     ],
     returns: [
       { arg: 'routes', type: 'array', root: true }

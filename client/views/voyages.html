@@ -35,27 +35,32 @@
       ng-click="ctrl.getRoutes(ctrl.etd, ctrl.eta)">
       Find
     </button>
-
+    <label for="includeTrans">Include Transhipments?</label>
+    <input name="includeTrans" type="checkbox" ng-model="ctrl.includeTrans" ng-change="ctrl.includeTrans = (ctrl.includeTrans)? true: false"/>
   </form>
 
   <!-- Display the list of Voyage data - this is just as an example of displaying the initial data -->
   <table class="table table-striped"
          ng-show="ctrl.voyages.length">
     <thead>
-      <tr>
-        <th>ID</th>
-        <th>Port</th>
-        <th>ETA</th>
-        <th>ETD</th>
-      </tr>
+    <tr>
+      <th>Routes</th>
+      <th>Port A</th>
+      <th>Departs</th>
+      <th>Port B</th>
+      <th>Arrives</th>
+      <th>Vessels</th>
+    </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="voyage in ctrl.voyages">
-        <th>{{ voyage.id }}</th>
-        <td>{{ voyage.port }}</td>
-        <td>{{ (voyage.eta | date) || 'N/A' }}</td>
-        <td>{{ (voyage.etd | date) || 'N/A' }}</td>
-      </tr>
+    <tr ng-repeat="voyage in ctrl.voyages">
+      <td>{{ ctrl.getRouteIds(voyage.from, voyage.to) }}</td>
+      <td>{{ voyage.from.port }}</td>
+      <td>{{ (voyage.from.etd | date) || 'N/A' }}</td>
+      <td>{{ voyage.to.port }}</td>
+      <td>{{ (voyage.to.eta | date) || 'N/A' }}</td>
+      <td>{{ ctrl.getVessels(voyage.from, voyage.to) }}</td>
+    </tr>
     </tbody>
   </table>
 
