@@ -135,6 +135,22 @@
       "port": "SGSIN",
       "eta": "2016-02-01 00:00:00",
       "etd": null
+    },
+    {
+      "id":18,
+      "vessel": "USS Awesome",
+      "routeId": 5,
+      "port": "USLAX",
+      "eta": "2016-01-12 00:00:00",
+      "etd": "2016-01-15 06:00:00"
+    },
+    {
+      "id":19,
+      "vessel": "USS Awesome",
+      "routeId": 5,
+      "port": "COBOG",
+      "eta": "2016-02-01 00:00:00",
+      "etd": null
     }
   ]
 }

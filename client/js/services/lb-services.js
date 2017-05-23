@@ -1941,6 +1941,8 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              *  - `eta` – `{date=}` -
              *
+             *  - `includeTrans` – `{boolean=}` -
+             *
              * @param {function(Array.<Object>,Object)=} successCb
              *   Success callback with two arguments: `value`, `responseHeaders`.
              *
